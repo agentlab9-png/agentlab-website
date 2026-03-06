@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentLab - AI &amp; Automation Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#06b6d4;--primary-dark:#0891b2;--bg-dark:#0a0e1a;--bg-card:#111827;--text-primary:#f1f5f9;--text-secondary:#94a3b8;--gradient:linear-gradient(135deg,#06b6d4,#3b82f6,#8b5cf6);--font-en:"Inter",sans-serif;--font-ar:"Cairo",sans-serif}
+html{scroll-behavior:smooth}body{font-family:var(--font-en);background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden;line-height:1.6}[dir="rtl"] body{font-family:var(--font-ar)}a{text-decoration:none;color:inherit}
+.navbar{position:fixed;top:0;width:100%;z-index:1000;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;transition:all .3s;background:transparent}.navbar.scrolled{background:rgba(10,14,26,.95);backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(0,0,0,.3)}
+.nav-logo{display:flex;align-items:center;gap:.75rem;font-size:1.5rem;font-weight:800}.nav-logo i,.nav-logo span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}.nav-links a{color:var(--text-secondary);font-weight:500;transition:color .3s}.nav-links a:hover{color:var(--primary)}
+.nav-actions{display:flex;align-items:center;gap:1rem}.lang-toggle{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-weight:600;transition:all .3s}.lang-toggle:hover{background:var(--primary);border-color:var(--primary)}
+.btn-primary{background:var(--gradient);color:#fff;padding:.65rem 1.5rem;border-radius:10px;font-weight:600;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(6,182,212,.3)}
+.menu-toggle{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 50%,rgba(6,182,212,.08) 0%,transparent 50%),radial-gradient(ellipse at 70% 50%,rgba(59,130,246,.06) 0%,transparent 50%);animation:heroGlow 8s ease-in-out infinite alternate}@keyframes heroGlow{0%{transform:translate(0,0)}100%{transform:translate(-2%,2%)}}
+.hero-content{max-width:800px;position:relative;z-index:2}.hero h1{font-size:clamp(2.5rem,5vw,4rem);font-weight:900;margin-bottom:1.5rem;line-height:1.2}.hero h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.25rem;color:var(--text-secondary);margin-bottom:2.5rem;max-width:600px;margin-left:auto;margin-right:auto}.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-outline{border:2px solid var(--primary);color:var(--primary);padding:.65rem 1.5rem;border-radius:10px;font-weight:600;background:transparent;cursor:pointer;transition:all .3s}.btn-outline:hover{background:var(--primary);color:#fff}
+.particles{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}.particle{position:absolute;width:4px;height:4px;background:var(--primary);border-radius:50%;opacity:.3;animation:float linear infinite}@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.3}90%{opacity:.3}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+section{padding:6rem 2rem}.section-title{text-align:center;margin-bottom:4rem}.section-title h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:1rem}.section-title h2 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.section-title p{color:var(--text-secondary);font-size:1.1rem;max-width:600px;margin:0 auto}.container{max-width:1200px;margin:0 auto}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2rem}.service-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:2.5rem;transition:all .4s;position:relative;overflow:hidden}
+.service-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient);transform:scaleX(0);transition:transform .4s}.service-card:hover{transform:translateY(-8px);border-color:rgba(6,182,212,.3);box-shadow:0 20px 40px rgba(6,182,212,.1)}.service-card:hover::before{transform:scaleX(1)}
+.service-icon{width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,rgba(6,182,212,.15),rgba(59,130,246,.15));display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;font-size:1.5rem;color:var(--primary)}.service-card h3{font-size:1.3rem;font-weight:700;margin-bottom:.75rem}.service-card p{color:var(--text-secondary);line-height:1.7}
+.about-section{background:linear-gradient(180deg,transparent,rgba(6,182,212,.03),transparent)}.about-content{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}.about-text h2{font-size:2.5rem;font-weight:800;margin-bottom:1.5rem}.about-text h2 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.about-text p{color:var(--text-secondary);margin-bottom:1.5rem;line-height:1.8}
+.about-features{display:flex;flex-direction:column;gap:.75rem}.about-feature{display:flex;align-items:center;gap:.75rem;color:var(--text-secondary)}.about-feature i{color:var(--primary)}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}.stat-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:2rem;text-align:center}.stat-card .number{font-size:2.5rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.stat-card .label{color:var(--text-secondary);margin-top:.25rem}
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2rem}.testimonial-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:2.5rem}.testimonial-stars{color:#fbbf24;margin-bottom:1rem}.testimonial-text{color:var(--text-secondary);font-style:italic;line-height:1.8;margin-bottom:1.5rem}
+.testimonial-author{display:flex;align-items:center;gap:1rem}.author-avatar{width:48px;height:48px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}.author-info h4{font-weight:600}.author-info p{color:var(--text-secondary);font-size:.9rem}
+.contact-section{background:linear-gradient(180deg,transparent,rgba(6,182,212,.03),transparent)}.contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:3rem}
+.contact-info-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:2rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:1rem}.contact-info-card i{color:var(--primary);font-size:1.5rem;margin-top:.25rem}.contact-info-card h4{font-weight:600;margin-bottom:.25rem}.contact-info-card p{color:var(--text-secondary);font-size:.9rem}
+.contact-form{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:2.5rem}.form-group{margin-bottom:1.5rem}.form-group label{display:block;font-weight:500;margin-bottom:.5rem}.form-group input,.form-group textarea{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:1rem;font-family:inherit;transition:border-color .3s}.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--primary)}.form-group textarea{min-height:140px;resize:vertical}
+.form-submit{width:100%;padding:1rem;background:var(--gradient);color:#fff;border:none;border-radius:10px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:transform .3s,box-shadow .3s}.form-submit:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(6,182,212,.3)}.form-submit:disabled{opacity:.6;cursor:not-allowed}.form-msg{margin-top:1rem;padding:1rem;border-radius:10px;text-align:center;display:none}.form-msg.success{display:block;background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}.form-msg.error{display:block;background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+footer{background:var(--bg-card);border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem 2rem}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1200px;margin:0 auto}.footer-brand h3{font-size:1.5rem;font-weight:800;margin-bottom:1rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.footer-brand p{color:var(--text-secondary);line-height:1.7;margin-bottom:1.5rem}
+.social-links{display:flex;gap:1rem}.social-links a{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all .3s}.social-links a:hover{background:var(--primary);color:#fff;transform:translateY(-3px)}
+.footer-col h4{font-weight:600;margin-bottom:1.5rem}.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}.footer-col a{color:var(--text-secondary);transition:color .3s}.footer-col a:hover{color:var(--primary)}
+.footer-bottom{max-width:1200px;margin:3rem auto 0;padding-top:2rem;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;color:var(--text-secondary);font-size:.9rem}
+@media(max-width:768px){.nav-links{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(10,14,26,.98);flex-direction:column;justify-content:center;align-items:center;gap:2rem;font-size:1.2rem}.nav-links.active{display:flex}.menu-toggle{display:block}.about-content,.contact-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.footer-bottom{flex-direction:column;gap:1rem;text-align:center}}
+.fade-up{opacity:0;transform:translateY(30px);transition:all .6s ease}.fade-up.visible{opacity:1;transform:translateY(0)}
+.back-top{position:fixed;bottom:2rem;right:2rem;width:48px;height:48px;background:var(--gradient);border:none;border-radius:12px;color:#fff;font-size:1.2rem;cursor:pointer;opacity:0;visibility:hidden;transition:all .3s;z-index:999;display:flex;align-items:center;justify-content:center}.back-top.show{opacity:1;visibility:visible}.back-top:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(6,182,212,.4)}
+</style>
+  </head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar"><a href="#" class="nav-logo"><i class="fas fa-robot"></i><span>AgentLab</span></a><ul class="nav-links" id="navLinks"><li><a href="#home" data-i18n="nav.home">Home</a></li><li><a href="#services" data-i18n="nav.services">Services</a></li><li><a href="#about" data-i18n="nav.about">About</a></li><li><a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a></li><li><a href="#contact" data-i18n="nav.contact">Contact</a></li></ul><div class="nav-actions"><button class="lang-toggle" id="langToggle" onclick="toggleLang()">AR</button><a href="#contact" class="btn-primary" data-i18n="nav.getStarted">Get Started</a><button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button></div></nav>
+
+<!-- HERO -->
+<section class="hero" id="home"><div class="particles" id="particles"></div><div class="hero-content fade-up"><h1 data-i18n="hero.title">Empowering Business Through <span>Intelligent Automation</span></h1><p data-i18n="hero.subtitle">We build AI-powered solutions that transform how businesses operate, automate workflows, and drive growth.</p><div class="hero-btns"><a href="#services" class="btn-primary" data-i18n="hero.explore">Explore Our Services</a><a href="#contact" class="btn-outline" data-i18n="hero.consult">Book a Consultation</a></div></div></section>
+
+<!-- SERVICES -->
+<section id="services"><div class="container"><div class="section-title fade-up"><h2 data-i18n="services.title">Our <span>Services</span></h2><p data-i18n="services.subtitle">Comprehensive AI and automation solutions designed to accelerate your business growth</p></div><div class="services-grid">
+<div class="service-card fade-up"><div class="service-icon"><i class="fas fa-comments"></i></div><h3 data-i18n="services.chatbots.title">AI Chatbots &amp; Virtual Assistants</h3><p data-i18n="services.chatbots.desc">Custom AI agents that understand your business and automate complex decision-making processes.</p></div>
+<div class="service-card fade-up"><div class="service-icon"><i class="fas fa-cogs"></i></div><h3 data-i18n="services.rpa.title">Workflow Automation (RPA)</h3><p data-i18n="services.rpa.desc">Streamline workflows and eliminate repetitive tasks with intelligent automation solutions.</p></div>
+<div class="service-card fade-up"><div class="service-icon"><i class="fas fa-brain"></i></div><h3 data-i18n="services.ml.title">Machine Learning Solutions</h3><p data-i18n="services.ml.desc">Advanced ML models tailored to your data for predictive analytics and smart automation.</p></div>
+<div class="service-card fade-up"><div class="service-icon"><i class="fas fa-language"></i></div><h3 data-i18n="services.nlp.title">Natural Language Processing</h3><p data-i18n="services.nlp.desc">Transform text data into actionable insights with our cutting-edge NLP solutions.</p></div>
+<div class="service-card fade-up"><div class="service-icon"><i class="fas fa-eye"></i></div><h3 data-i18n="services.cv.title">Computer Vision Solutions</h3><p data-i18n="services.cv.desc">Intelligent image and video analysis for quality control, security, and automation.</p></div>
+<div class="service-card fade-up"><div class="service-icon"><i class="fas fa-lightbulb"></i></div><h3 data-i18n="services.strategy.title">AI Strategy &amp; Consulting</h3><p data-i18n="services.strategy.desc">Expert guidance to identify AI opportunities and build a roadmap for digital transformation.</p></div>
+</div></div></section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about"><div class="container"><div class="about-content"><div class="about-text fade-up"><h2 data-i18n="about.title">Why Choose <span>AgentLab?</span></h2><p data-i18n="about.desc">We combine cutting-edge AI research with practical business expertise to deliver solutions that actually work. Our team of experts is dedicated to helping your business thrive in the age of AI.</p><div class="about-features"><div class="about-feature"><i class="fas fa-check-circle"></i><span data-i18n="about.f1">Industry-leading AI technology</span></div><div class="about-feature"><i class="fas fa-check-circle"></i><span data-i18n="about.f2">Proven track record of success</span></div><div class="about-feature"><i class="fas fa-check-circle"></i><span data-i18n="about.f3">Dedicated support team</span></div><div class="about-feature"><i class="fas fa-check-circle"></i><span data-i18n="about.f4">Scalable solutions</span></div></div></div><div class="stats-grid fade-up"><div class="stat-card"><div class="number">500+</div><div class="label" data-i18n="about.projects">Projects Completed</div></div><div class="stat-card"><div class="number">98%</div><div class="label" data-i18n="about.satisfaction">Client Satisfaction</div></div><div class="stat-card"><div class="number">50+</div><div class="label" data-i18n="about.clients">Enterprise Clients</div></div><div class="stat-card"><div class="number">24/7</div><div class="label" data-i18n="about.support">Support Available</div></div></div></div></div></section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials"><div class="container"><div class="section-title fade-up"><h2 data-i18n="testimonials.title">Trusted by <span>Industry Leaders</span></h2><p data-i18n="testimonials.subtitle">See what our clients have to say about their experience with AgentLab</p></div><div class="testimonials-grid">
+<div class="testimonial-card fade-up"><div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="testimonial-text" data-i18n="testimonials.t1.text">"AgentLab's AI agents reduced our manual processes by 70%. The results were immediate and the ROI exceeded our expectations within the first quarter."</p><div class="testimonial-author"><div class="author-avatar">SC</div><div class="author-info"><h4>Sarah Chen</h4><p>CEO, TechVenture Inc</p></div></div></div>
+<div class="testimonial-card fade-up"><div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="testimonial-text" data-i18n="testimonials.t2.text">"The team at AgentLab understood our complex workflows and delivered a solution that felt tailored to our business. Outstanding support throughout."</p><div class="testimonial-author"><div class="author-avatar">MR</div><div class="author-info"><h4>Michael Rodriguez</h4><p>Operations Director, GlobalScale</p></div></div></div>
+<div class="testimonial-card fade-up"><div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="testimonial-text" data-i18n="testimonials.t3.text">"We've tried other automation platforms, but AgentLab's AI-powered approach is in a league of its own. Highly recommend to any enterprise looking to scale."</p><div class="testimonial-author"><div class="author-avatar">EW</div><div class="author-info"><h4>Emma Watson</h4><p>CTO, InnovateLabs</p></div></div></div>
+</div></div></section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact"><div class="container"><div class="section-title fade-up"><h2 data-i18n="contact.title">Get in <span>Touch</span></h2><p data-i18n="contact.subtitle">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p></div><div class="contact-grid"><div class="fade-up">
+<div class="contact-info-card"><i class="fas fa-envelope"></i><div><h4 data-i18n="contact.email">Email</h4><p>contact@agentlab.ai</p><p data-i18n="contact.emailNote">We'll respond within 24 hours</p></div></div>
+<div class="contact-info-card"><i class="fas fa-phone"></i><div><h4 data-i18n="contact.phone">Phone</h4><p>+1 (555) 123-4567</p><p data-i18n="contact.phoneNote">Mon-Fri, 9am-6pm EST</p></div></div>
+<div class="contact-info-card"><i class="fas fa-map-marker-alt"></i><div><h4 data-i18n="contact.office">Office</h4><p>San Francisco, CA</p><p>Tech Hub District</p></div></div></div>
+<div class="contact-form fade-up"><form id="contactForm" onsubmit="handleSubmit(event)"><div class="form-group"><label data-i18n="contact.form.name">Full Name</label><input type="text" id="fullName" required placeholder="John Doe"></div><div class="form-group"><label data-i18n="contact.form.email">Email Address</label><input type="email" id="emailAddr" required placeholder="john@example.com"></div><div class="form-group"><label data-i18n="contact.form.subject">Subject</label><input type="text" id="subject" required placeholder="Project Inquiry"></div><div class="form-group"><label data-i18n="contact.form.message">Message</label><textarea id="message" required placeholder="Tell us about your project..."></textarea></div><button type="submit" class="form-submit" id="submitBtn" data-i18n="contact.form.send">Send Message <i class="fas fa-paper-plane"></i></button><div id="formMsg" class="form-msg"></div></form></div></div></div></section>
+
+<!-- FOOTER -->
+<footer><div class="footer-grid"><div class="footer-brand"><h3>AgentLab</h3><p data-i18n="footer.desc">Transforming businesses with intelligent automation and AI-powered solutions.</p><div class="social-links"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fas fa-envelope"></i></a></div></div><div class="footer-col"><h4 data-i18n="footer.product">Product</h4><ul><li><a href="#services" data-i18n="nav.services">Services</a></li><li><a href="#about" data-i18n="footer.pricing">Pricing</a></li><li><a href="#" data-i18n="footer.docs">Documentation</a></li></ul></div><div class="footer-col"><h4 data-i18n="footer.company">Company</h4><ul><li><a href="#about" data-i18n="nav.about">About</a></li><li><a href="#" data-i18n="footer.careers">Careers</a></li><li><a href="#contact" data-i18n="nav.contact">Contact</a></li></ul></div><div class="footer-col"><h4 data-i18n="footer.legal">Legal</h4><ul><li><a href="#" data-i18n="footer.privacy">Privacy Policy</a></li><li><a href="#" data-i18n="footer.terms">Terms of Service</a></li></ul></div></div><div class="footer-bottom"><p>&copy; 2025 AgentLab. All rights reserved.</p><p data-i18n="footer.crafted">Crafted with AI, built with passion.</p></div></footer>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+// === SUPABASE SETUP ===
+const SUPABASE_URL = "https://leqtozymftfqnypnxzlr.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlcXRvenltZnRmcW55cG54emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MTA2MDgsImV4cCI6MjA4ODI4NjYwOH0.ZRhyapRaxvcx4A6wacNEtPTWyzy9U18JkTWUQyEhbXM";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// === TRANSLATIONS ===
+const translations = {
+  en: {
+    "nav.home":"Home","nav.services":"Services","nav.about":"About","nav.testimonials":"Testimonials","nav.contact":"Contact","nav.getStarted":"Get Started",
+    "hero.title":"Empowering Business Through <span>Intelligent Automation</span>","hero.subtitle":"We build AI-powered solutions that transform how businesses operate, automate workflows, and drive growth.","hero.explore":"Explore Our Services","hero.consult":"Book a Consultation",
+    "services.title":"Our <span>Services</span>","services.subtitle":"Comprehensive AI and automation solutions designed to accelerate your business growth",
+    "services.chatbots.title":"AI Chatbots & Virtual Assistants","services.chatbots.desc":"Custom AI agents that understand your business and automate complex decision-making processes.",
+    "services.rpa.title":"Workflow Automation (RPA)","services.rpa.desc":"Streamline workflows and eliminate repetitive tasks with intelligent automation solutions.",
+    "services.ml.title":"Machine Learning Solutions","services.ml.desc":"Advanced ML models tailored to your data for predictive analytics and smart automation.",
+    "services.nlp.title":"Natural Language Processing","services.nlp.desc":"Transform text data into actionable insights with our cutting-edge NLP solutions.",
+    "services.cv.title":"Computer Vision Solutions","services.cv.desc":"Intelligent image and video analysis for quality control, security, and automation.",
+    "services.strategy.title":"AI Strategy & Consulting","services.strategy.desc":"Expert guidance to identify AI opportunities and build a roadmap for digital transformation.",
+    "about.title":"Why Choose <span>AgentLab?</span>","about.desc":"We combine cutting-edge AI research with practical business expertise to deliver solutions that actually work. Our team of experts is dedicated to helping your business thrive in the age of AI.",
+    "about.f1":"Industry-leading AI technology","about.f2":"Proven track record of success","about.f3":"Dedicated support team","about.f4":"Scalable solutions",
+    "about.projects":"Projects Completed","about.satisfaction":"Client Satisfaction","about.clients":"Enterprise Clients","about.support":"Support Available",
+    "testimonials.title":"Trusted by <span>Industry Leaders</span>","testimonials.subtitle":"See what our clients have to say about their experience with AgentLab",
+    "testimonials.t1.text":"\"AgentLab's AI agents reduced our manual processes by 70%. The results were immediate and the ROI exceeded our expectations.\"",
+    "testimonials.t2.text":"\"The team at AgentLab understood our complex workflows and delivered a solution tailored to our business. Outstanding support.\"",
+    "testimonials.t3.text":"\"AgentLab's AI-powered approach is in a league of its own. Highly recommend to any enterprise looking to scale.\"",
+    "contact.title":"Get in <span>Touch</span>","contact.subtitle":"Have questions? Send us a message and we'll respond as soon as possible.",
+    "contact.email":"Email","contact.emailNote":"We'll respond within 24 hours","contact.phone":"Phone","contact.phoneNote":"Mon-Fri, 9am-6pm EST","contact.office":"Office",
+    "contact.form.name":"Full Name","contact.form.email":"Email Address","contact.form.subject":"Subject","contact.form.message":"Message","contact.form.send":"Send Message <i class=\"fas fa-paper-plane\"></i>",
+    "footer.desc":"Transforming businesses with intelligent automation and AI-powered solutions.","footer.product":"Product","footer.pricing":"Pricing","footer.docs":"Documentation","footer.company":"Company","footer.careers":"Careers","footer.legal":"Legal","footer.privacy":"Privacy Policy","footer.terms":"Terms of Service","footer.crafted":"Crafted with AI, built with passion."
+  },
+  ar: {
+    "nav.home":"الرئيسية","nav.services":"الخدمات","nav.about":"من نحن","nav.testimonials":"آراء العملاء","nav.contact":"تواصل معنا","nav.getStarted":"ابدأ الآن",
+    "hero.title":"تمكين الأعمال من خلال <span>الأتمتة الذكية</span>","hero.subtitle":"نبني حلول مدعومة بالذكاء الاصطناعي تحوّل طريقة عمل الشركات وتؤتمت العمليات وتدفع النمو.","hero.explore":"اكتشف خدماتنا","hero.consult":"احجز استشارة",
+    "services.title":"<span>خدماتنا</span>","services.subtitle":"حلول شاملة للذكاء الاصطناعي والأتمتة مصممة لتسريع نمو أعمالك",
+    "services.chatbots.title":"روبوتات المحادثة والمساعدين الافتراضيين","services.chatbots.desc":"وكلاء ذكاء اصطناعي مخصصون يفهمون عملك ويؤتمتون عمليات اتخاذ القرار المعقدة.",
+    "services.rpa.title":"أتمتة سير العمل (RPA)","services.rpa.desc":"تبسيط سير العمل والتخلص من المهام المتكررة بحلول أتمتة ذكية.",
+    "services.ml.title":"حلول التعلم الآلي","services.ml.desc":"نماذج تعلم آلي متقدمة مصممة لبياناتك للتحليلات التنبؤية والأتمتة الذكية.",
+    "services.nlp.title":"معالجة اللغة الطبيعية","services.nlp.desc":"تحويل البيانات النصية إلى رؤى قابلة للتنفيذ بحلولنا المتطورة.",
+    "services.cv.title":"حلول الرؤية الحاسوبية","services.cv.desc":"تحليل ذكي للصور والفيديو لمراقبة الجودة والأمان والأتمتة.",
+    "services.strategy.title":"استراتيجية واستشارات الذكاء الاصطناعي","services.strategy.desc":"إرشاد خبير لتحديد فرص الذكاء الاصطناعي وبناء خارطة طريق للتحول الرقمي.",
+    "about.title":"لماذا تختار <span>AgentLab؟</span>","about.desc":"نجمع بين أبحاث الذكاء الاصطناعي المتطورة والخبرة العملية في الأعمال لتقديم حلول تعمل فعلاً. فريقنا من الخبراء مكرّس لمساعدة عملك على الازدهار في عصر الذكاء الاصطناعي.",
+    "about.f1":"تقنية ذكاء اصطناعي رائدة","about.f2":"سجل نجاح مثبت","about.f3":"فريق دعم مخصص","about.f4":"حلول قابلة للتوسع",
+    "about.projects":"مشروع مكتمل","about.satisfaction":"رضا العملاء","about.clients":"عميل مؤسسي","about.support":"دعم متاح",
+    "testimonials.title":"موثوق من <span>قادة الصناعة</span>","testimonials.subtitle":"اطّلع على آراء عملائنا حول تجربتهم مع AgentLab",
+    "testimonials.t1.text":"\"وكلاء AgentLab الذكيين قللوا عملياتنا اليدوية بنسبة 70%. النتائج كانت فورية والعائد فاق توقعاتنا.\"",
+    "testimonials.t2.text":"\"فريق AgentLab فهم سير عملنا المعقد وقدم حلاً مصمماً خصيصاً لأعمالنا. دعم متميز طوال التنفيذ.\"",
+    "testimonials.t3.text":"\"نهج AgentLab المدعوم بالذكاء الاصطناعي في مستوى آخر تماماً. نوصي به بشدة لأي مؤسسة تتطلع للتوسع.\"",
+    "contact.title":"تواصل <span>معنا</span>","contact.subtitle":"لديك أسئلة؟ أرسل لنا رسالة وسنرد في أقرب وقت ممكن.",
+    "contact.email":"البريد الإلكتروني","contact.emailNote":"نرد خلال 24 ساعة","contact.phone":"الهاتف","contact.phoneNote":"الاثنين-الجمعة، 9ص-6م","contact.office":"المكتب",
+    "contact.form.name":"الاسم الكامل","contact.form.email":"البريد الإلكتروني","contact.form.subject":"الموضوع","contact.form.message":"الرسالة","contact.form.send":"إرسال الرسالة <i class=\"fas fa-paper-plane\"></i>",
+    "footer.desc":"تحويل الأعمال بالأتمتة الذكية وحلول الذكاء الاصطناعي.","footer.product":"المنتج","footer.pricing":"الأسعار","footer.docs":"التوثيق","footer.company":"الشركة","footer.careers":"الوظائف","footer.legal":"قانوني","footer.privacy":"سياسة الخصوصية","footer.terms":"شروط الخدمة","footer.crafted":"صُنع بالذكاء الاصطناعي، بُني بشغف."
+  }
+};
+
+let currentLang = localStorage.getItem("lang") || "en";
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem("lang", lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.getElementById("langToggle").textContent = lang === "ar" ? "EN" : "AR";
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (translations[lang][key]) el.innerHTML = translations[lang][key];
+  });
+}
+
+function toggleLang() { setLang(currentLang === "en" ? "ar" : "en"); }
+
+// === CONTACT FORM SUBMIT TO SUPABASE ===
+async function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById("submitBtn");
+  const msg = document.getElementById("formMsg");
+  btn.disabled = true;
+  btn.innerHTML = currentLang === "ar" ? "جاري الإرسال..." : "Sending...";
+  msg.className = "form-msg"; msg.style.display = "none";
+  try {
+    const { error } = await supabase.from("contact_messages").insert({
+      full_name: document.getElementById("fullName").value,
+      email: document.getElementById("emailAddr").value,
+      subject: document.getElementById("subject").value,
+      message: document.getElementById("message").value
+    });
+    if (error) throw error;
+    msg.className = "form-msg success";
+    msg.textContent = currentLang === "ar" ? "تم إرسال رسالتك بنجاح! سنتواصل معك قريباً." : "Message sent successfully! We'll get back to you soon.";
+    msg.style.display = "block";
+    document.getElementById("contactForm").reset();
+  } catch (err) {
+    msg.className = "form-msg error";
+    msg.textContent = currentLang === "ar" ? "حدث خطأ. يرجى المحاولة مرة أخرى." : "Something went wrong. Please try again.";
+    msg.style.display = "block";
+  }
+  btn.disabled = false;
+  btn.innerHTML = translations[currentLang]["contact.form.send"];
+}
+
+// === NAVBAR SCROLL ===
+window.addEventListener("scroll", () => {
+  document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 50);
+  document.getElementById("backTop").classList.toggle("show", window.scrollY > 500);
+});
+
+// === MOBILE MENU ===
+function toggleMenu() {
+  document.getElementById("navLinks").classList.toggle("active");
+}
+document.querySelectorAll(".nav-links a").forEach(a => a.addEventListener("click", () => document.getElementById("navLinks").classList.remove("active")));
+
+// === PARTICLES ===
+(function createParticles() {
+  const container = document.getElementById("particles");
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.width = p.style.height = (Math.random() * 4 + 2) + "px";
+    p.style.animationDuration = (Math.random() * 15 + 10) + "s";
+    p.style.animationDelay = (Math.random() * 10) + "s";
+    container.appendChild(p);
+  }
+})();
+
+// === SCROLL ANIMATIONS ===
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add("visible"); });
+}, { threshold: 0.1 });
+document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+
+// === INIT LANGUAGE ===
+setLang(currentLang);
+</script>
+</body>
+                                                                                                                                                                                                                                                                                                                                                                 </html>
